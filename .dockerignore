@@ -1,0 +1,16 @@
+# Ignore local development files and folders
+/vendor/
+/node_modules/
+.env
+.git
+.gitignore
+.editorconfig
+Dockerfile
+.dockerignore
+docker-compose.yml
+README.md
+storage/logs/*
+storage/framework/sessions/*
+storage/framework/cache/data/*
+storage/framework/views/*
+public/storage
