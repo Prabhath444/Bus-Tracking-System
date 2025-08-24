@@ -1,61 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚍 GPS Bus Tracking System - Laravel API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains the source code for the **RESTful backend API** of the **SLGPS Bus Tracking System**.  
+This powerful and secure API is built with **Laravel** and is designed to serve a decoupled frontend application, such as a **React SPA**.
 
-## About Laravel
+The API provides a complete solution for managing a fleet of buses, drivers, routes, and schedules, and includes **real-time GPS location tracking** with automated alert generation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Key Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Secure Authentication**  
+  Token-based authentication for users powered by Laravel Sanctum.
 
-## Learning Laravel
+- **Role-Based Access Control (RBAC)**  
+  Utilizes Laravel Gates to ensure that only users with appropriate roles (e.g., *Admin*, *Manager*) can perform sensitive actions.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Full CRUD Functionality**  
+  Comprehensive, secure endpoints for managing all core resources: *Users, Buses, Drivers, Routes, and Schedules.*
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Real-Time GPS Tracking**  
+  A dedicated endpoint to receive live location pings from GPS devices and endpoints to provide the latest location data for a live map.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Automated Alerting**  
+  The system automatically generates **Overspeed** alerts when a bus reports a speed exceeding a configurable limit.
 
-## Laravel Sponsors
+- **Device Authentication**  
+  A custom middleware provides secure authentication for IoT/GPS devices using a static API key.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Dashboard Analytics**  
+  A single endpoint to retrieve high-level statistics for the admin dashboard.
 
-### Premium Partners
+- **Optimized Responses**  
+  Uses Laravel API Resources to transform and format all JSON responses, ensuring a clean and consistent data structure for the frontend.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🛠️ Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Backend Framework**: Laravel 12  
+- **Language**: PHP 8.2+  
+- **Database**: MySQL  
+- **Authentication**: Laravel Sanctum  
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🔌 API Endpoints
 
-## Security Vulnerabilities
+All endpoints are prefixed with `/api`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Method       | Endpoint                        | Description                                           | Authentication | Authorization       |
+|--------------|---------------------------------|-------------------------------------------------------|----------------|---------------------|
+| POST         | /login                          | Authenticates a user and returns a bearer token.      | Public         | N/A                 |
+| POST         | /logout                         | Revokes the user's current token.                     | Sanctum Token  | Authenticated User  |
+| GET          | /user                           | Returns the currently authenticated user's details.   | Sanctum Token  | Authenticated User  |
+| apiResource  | /buses                          | Full CRUD for managing buses.                         | Sanctum Token  | Admin/Manager       |
+| apiResource  | /drivers                        | Full CRUD for managing drivers.                       | Sanctum Token  | Admin/Manager       |
+| apiResource  | /routes                         | Full CRUD for managing routes.                        | Sanctum Token  | Admin/Manager       |
+| apiResource  | /schedules                      | Full CRUD for managing schedules.                     | Sanctum Token  | Admin/Manager       |
+| apiResource  | /users                          | Full CRUD for managing users.                         | Sanctum Token  | Admin Only          |
+| POST         | /location/ping                  | Receives a GPS location ping from a device.           | X-API-KEY      | Trusted Device      |
+| GET          | /location/latest                | Gets the latest location for all buses.               | Sanctum Token  | Authenticated User  |
+| GET          | /buses/{id}/location/latest     | Gets the latest location for a single bus.            | Sanctum Token  | Authenticated User  |
+| GET          | /alerts                         | Lists all system-generated alerts.                    | Sanctum Token  | Admin/Manager       |
+| GET          | /dashboard                      | Retrieves statistics for the main dashboard.          | Sanctum Token  | Admin/Manager       |
+| GET          | /schedule-options               | Gets lists of buses, drivers, and routes for forms.   | Sanctum Token  | Admin/Manager       |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🖥️ Frontend Integration
+
+This API is designed to be consumed by a **Single Page Application (SPA)**.  
+The recommended frontend is a **React application** that uses the following architecture:
+
+- **API Client**  
+  Axios is used for all HTTP requests. A central `apiClient` instance is configured with the base URL of the API.
+
+- **Authentication Flow**  
+  1. The React app sends user credentials to the `/api/login` endpoint.  
+  2. Upon success, the received **Bearer Token** is stored in the browser’s `localStorage` for session persistence.  
+  3. The central `apiClient` instance is dynamically configured to include the header:  
+     ```
+     Authorization: Bearer <token>
+     ```
+     on all subsequent requests.
+
+- **State Management**  
+  A global React Context (`AuthContext`) manages the user's authentication state (`user`, `token`, `loading`), making it accessible to all components.
+
+- **Protected Routes**  
+  `react-router-dom` is used for routing. A custom `ProtectedRoute` component wraps all sensitive pages, automatically redirecting unauthenticated users to the sign-in page.
+
+---
+
+## 🚀 Local Setup and Installation
+
+To get the project running on a local development machine:
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+   
+2. **Install PHP dependencies:**  
+   ```bash
+      composer install
+   
+3. **Create your environment file:**  
+   ```bash
+      copy .env to .example .env
+   
+4. **Generate an application key:**  
+   ```bash
+      php artisan key:generate
+   
+5. **Configure your .env file:**  
+   ```bash
+      •	Set up your DB_DATABASE, DB_USERNAME, and DB_PASSWORD to connect to a local MySQL database.
+
+6. **Serve the application:**
+   ```bash
+   php artisan migrate
+   
+7. **Serve the application:**
+   ```bash
+   php artisan serve
