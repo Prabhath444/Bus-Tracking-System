@@ -47,5 +47,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('view-dashboard', function (User $user) {
             return in_array($user->role, ['Admin', 'Manager']);
         });
+
+        Gate::define('view-performance-reports', function (User $user) {
+            return in_array($user->role, ['Admin', 'Manager']);
+        });
     }
 }

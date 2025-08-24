@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BusController;
 use App\Http\Controllers\Api\DriverController;
 use App\Http\Controllers\Api\RouteController;
 use App\Http\Controllers\Api\ScheduleController;
+use App\Http\Controllers\Api\PerformanceReportController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LiveLocationController;
 use App\Http\Controllers\Api\AlertController;
@@ -31,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('routes', RouteController::class);
     Route::apiResource('schedules', ScheduleController::class);
     Route::apiResource('users', UserController::class);
+    Route::apiResource('performance-reports', PerformanceReportController::class);
 
     Route::get('/location/latest', [LiveLocationController::class, 'getLatestLocations'])->middleware('auth:sanctum');
 
