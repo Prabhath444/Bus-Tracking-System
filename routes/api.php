@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\LiveLocationController;
 use App\Http\Controllers\Api\AlertController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\ScheduleOptionsController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -37,4 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/alerts', [AlertController::class, 'index']);
     Route::get('/dashboard', [DashboardController::class, 'getStats']);
+
+    Route::get('/schedule-options', [ScheduleOptionsController::class, 'index']);
 });
