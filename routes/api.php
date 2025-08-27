@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/buses/{bus}/location/latest', [LiveLocationController::class, 'getLatestForBus']);
 
     Route::get('/alerts', [AlertController::class, 'index']);
+    Route::put('/alerts/{alert}', [AlertController::class, 'update']);
     Route::get('/dashboard', [DashboardController::class, 'getStats']);
 
     Route::get('/schedule-options', [ScheduleOptionsController::class, 'index']);

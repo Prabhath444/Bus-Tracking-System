@@ -39,9 +39,14 @@ class AlertController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Alert $alert)
     {
-        //
+        $this->authorize('view-alerts');
+        $validatedData = $request->validate([
+            'status' => 'required|in:Active,Resolved',
+        ]);
+        $alert->update($validatedData);
+        return new AlertResource($alert);
     }
 
     /**
